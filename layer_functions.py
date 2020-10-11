@@ -13,22 +13,22 @@ def generator_transposed_conv_layer(layer_number,batch_input,out_shape):
     
 # # #  
     
-def generator_convolutional_layer(layer_number,batch_input,out_channels):
+def generator_convolutional_layer(layer_number,batch_input,out_nodes):
     
     with tf.variable_scope('gen_conv_' + str(layer_number)):	     
 	    init = tf.random_normal_initializer(0, 0.02)	
-	    W_conv = tf.get_variable("W_conv_" + str(layer_number),shape=[4,4,batch_input.shape[-1],out_channels],initializer=init)
+	    W_conv = tf.get_variable("W_conv_" + str(layer_number),shape=[4,4,batch_input.shape[-1],out_nodes],initializer=init)
 
 	    return tf.nn.conv2d(batch_input,W_conv,strides=[1,2,2,1],padding='SAME')
 
 # # #
         
-def discriminator_convolutional_layer(layer_number,batch_input, out_channels, stride):    
+def discriminator_convolutional_layer(layer_number,batch_input, out_nodes, stride):    
     
     with tf.variable_scope('disc_conv_' + str(layer_number)):	  
         padded_input = tf.pad(batch_input, [[0, 0], [1, 1], [1, 1], [0, 0]], mode="CONSTANT")
         init = tf.random_normal_initializer(0, 0.02)	
-        W_conv = tf.get_variable("W_conv_" + str(layer_number),shape=[4,4,batch_input.shape[-1],out_channels],initializer=init)
+        W_conv = tf.get_variable("W_conv_" + str(layer_number),shape=[4,4,batch_input.shape[-1],out_nodes],initializer=init)
 
         return tf.nn.conv2d(padded_input,W_conv,strides=[1,stride,stride,1],padding='VALID')    
     
